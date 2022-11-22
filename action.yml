@@ -6,7 +6,7 @@ inputs:
     required: false
     default: 'source'
   built:
-    description: "Previous build directory"
+    description: "Previous build directory (needs to be repo and have a remote)"
     required: false
     default: 'built'
   env-type:
