@@ -46,6 +46,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Set message
+      uses: saucal/action-slack-notification@main
+      with:
+        status: "Preparing built assets :large_yellow_circle:"
+
     - name: Build To GIT
       id: 'build-to-git'
       uses: saucal/action-build-to-git@main
@@ -54,6 +59,11 @@ runs:
         path: ${{ inputs.built }}
         defer-push: "true"
         force-ignore: ${{ inputs.force-ignore }}
+
+    - name: Set message
+      uses: saucal/action-slack-notification@main
+      with:
+        status: "Pushing to FTP :large_yellow_circle:"
 
     - name: Deploy to FTP
       if: "${{ steps.build-to-git.outputs.manifest != '' }}"
@@ -68,6 +78,11 @@ runs:
         env-pass: ${{ inputs.env-pass }}
         env-local-root: ${{ inputs.built }}
         env-remote-root: ${{ inputs.env-remote-root }}
+
+    - name: Set message
+      uses: saucal/action-slack-notification@main
+      with:
+        status: "Pushing to GIT :large_yellow_circle:"
 
     - name: Push to GIT
       id: 'push-to-git'
