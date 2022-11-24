@@ -46,7 +46,7 @@ inputs:
     description: "Force ignore files"
     required: false
     default: |
-      vendor/*
+      /vendor/*
     
 runs:
   using: "composite"
