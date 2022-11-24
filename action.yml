@@ -42,6 +42,11 @@ inputs:
       /vendor/composer/*
       !/vendor/composer/installers
       !/vendor/composer/installed.json
+  ftp-ignore:
+    description: "Force ignore files"
+    required: false
+    default: |
+      vendor/*
     
 runs:
   using: "composite"
@@ -78,6 +83,7 @@ runs:
         env-pass: ${{ inputs.env-pass }}
         env-local-root: ${{ inputs.built }}
         env-remote-root: ${{ inputs.env-remote-root }}
+        force-ignore: ${{ inputs.ftp-ignore }}
 
     - name: Set message
       uses: saucal/action-slack-notification@main
