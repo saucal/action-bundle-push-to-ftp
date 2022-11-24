@@ -47,6 +47,10 @@ inputs:
     required: false
     default: |
       /vendor/**
+  full-deployment:
+    description: "Force full deployment"
+    required: false
+    default: "true"
     
 runs:
   using: "composite"
@@ -70,12 +74,29 @@ runs:
       with:
         status: "Pushing to FTP :large_yellow_circle:"
 
+    - name: Define manifest to use
+      id: manifest-load
+      shell: bash
+      run: |
+        {
+          if [ "${{ inputs.full-deployment }}" == "true" ]; then
+            echo 'manifest<<EOF_MANIFEST'
+            echo "${{ steps.build-to-git.outputs.manifest-full }}"
+            echo 'EOF_MANIFEST'
+          else
+            echo 'manifest<<EOF_MANIFEST'
+            echo "${{ steps.build-to-git.outputs.manifest }}"
+            echo 'EOF_MANIFEST'
+          fi
+        } >> $GITHUB_OUTPUT
+        
+
     - name: Deploy to FTP
-      if: "${{ steps.build-to-git.outputs.manifest != '' }}"
+      if: "${{ steps.manifest-load.outputs.manifest != '' }}"
       id: 'deploy-to-ftp'
       uses: saucal/action-deploy-ftp@main
       with:
-        manifest: "${{ steps.build-to-git.outputs.manifest }}"
+        manifest: "${{ steps.manifest-load.outputs.manifest }}"
         env-type: ${{ inputs.env-type }}
         env-host: ${{ inputs.env-host }}
         env-port: ${{ inputs.env-port }}
