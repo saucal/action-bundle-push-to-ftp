@@ -54,7 +54,7 @@ inputs:
   full-deployment:
     description: "Force full deployment"
     required: false
-    default: "true"
+    default: "false"
     
 runs:
   using: "composite"
