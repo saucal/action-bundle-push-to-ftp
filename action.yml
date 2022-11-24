@@ -37,6 +37,7 @@ inputs:
     description: "Force ignore files"
     required: false
     default: |
+      /auth.json
       /vendor/*
       !/vendor/composer
       /vendor/composer/*
@@ -47,6 +48,9 @@ inputs:
     required: false
     default: |
       /vendor/**
+      /auth.json
+      /composer.json
+      /composer.lock
   full-deployment:
     description: "Force full deployment"
     required: false
