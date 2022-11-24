@@ -54,7 +54,7 @@ inputs:
   full-deployment:
     description: "Force full deployment"
     required: false
-    default: "false"
+    default: "${{ github.event_name != 'push' }}"
     
 runs:
   using: "composite"
