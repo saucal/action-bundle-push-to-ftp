@@ -60,13 +60,13 @@ runs:
   using: "composite"
   steps:
     - name: Set message
-      uses: saucal/action-slack-notification@main
+      uses: saucal/action-slack-notification@v1
       with:
         status: "Preparing built assets :large_yellow_circle:"
 
     - name: Build To GIT
       id: 'build-to-git'
-      uses: saucal/action-build-to-git@main
+      uses: saucal/action-build-to-git@v1
       with:
         from: ${{ inputs.source }}
         path: ${{ inputs.built }}
@@ -74,7 +74,7 @@ runs:
         force-ignore: ${{ inputs.force-ignore }}
 
     - name: Set message
-      uses: saucal/action-slack-notification@main
+      uses: saucal/action-slack-notification@v1
       with:
         status: "Pushing to FTP :large_yellow_circle:"
 
@@ -98,7 +98,7 @@ runs:
     - name: Deploy to FTP
       if: "${{ steps.manifest-load.outputs.manifest != '' }}"
       id: 'deploy-to-ftp'
-      uses: saucal/action-deploy-ftp@main
+      uses: saucal/action-deploy-ftp@v2
       with:
         manifest: "${{ steps.manifest-load.outputs.manifest }}"
         env-type: ${{ inputs.env-type }}
@@ -111,13 +111,13 @@ runs:
         force-ignore: ${{ inputs.ftp-ignore }}
 
     - name: Set message
-      uses: saucal/action-slack-notification@main
+      uses: saucal/action-slack-notification@v1
       with:
         status: "Pushing to GIT :large_yellow_circle:"
 
     - name: Push to GIT
       id: 'push-to-git'
-      uses: saucal/action-build-to-git@main
+      uses: saucal/action-build-to-git@v1
       with:
         path: ${{ inputs.built }}
         do-push: "true"
