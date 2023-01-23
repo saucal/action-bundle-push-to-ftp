@@ -98,7 +98,7 @@ runs:
     - name: Deploy to FTP
       if: "${{ steps.manifest-load.outputs.manifest != '' }}"
       id: 'deploy-to-ftp'
-      uses: saucal/action-deploy-ftp@v2
+      uses: saucal/action-deploy-ftp@v3
       with:
         manifest: "${{ steps.manifest-load.outputs.manifest }}"
         env-type: ${{ inputs.env-type }}
